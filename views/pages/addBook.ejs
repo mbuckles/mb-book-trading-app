@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+  <% include ../partials/navbar.ejs %>
+  <!-- Begin Container -->
+  <br>
+  <div class="container ">
+    <div class="text-center">
+      <h1><span class="fa fa-bookmark"></span> Add Books</h1>
+      <hr>
+      <br>
+      <h1><i class="fa fa-google" aria-hidden="true">  </i></h1>
+      <h3>  Search for books using the powerful Google Books search engine. Then click on the image to add the book to your collection.</h3>
+      <br>
+      <input type="text" placeholder="Search for books..." id="searchText"><button type="button" class="btn btn-success" onclick="searchForBook()">  Go</button>
+  </div>
+    <br>
+    <div id="content"></div>
+    <div class="grid" style="position: relative; height: 184px;">
+      <div class="grid-sizer"></div>
+    </div>
+  </div>
+  <footer>
+    <script>
+    var user = <%- JSON.stringify(user) %>;
+    //console.log(user);
+    function searchForBook(){
+      var searchTxt = $.trim($('#searchText').val());
+      if(searchTxt != ""){
+        document.getElementById("content").innerHTML = "<h2>Searching...</h2>";
+        $.get( "https://www.googleapis.com/books/v1/volumes?q='"+searchTxt+"'&startIndex=0&maxResults=10", function( data ) {
+          handleResponse(data);
+        });
+      }else{
+        window.alert("Please enter the book you would like to search for in the search field.");
+      }
+    }
+    function handleResponse(response) {
+      var msnry = $('.grid').data('masonry');
+      if(msnry != undefined){
+        msnry.destroy();
+      }
+      var tempHTML = "<h2>Results:</h2>";
+      $('.grid').html('<div class="grid-sizer"></div>');
+      for (var i = 0; i < response.items.length; i++) {
+        var item = response.items[i];
+        var itemImg = "";
+        if (item.volumeInfo.hasOwnProperty('imageLinks')){
+          if(item.volumeInfo.imageLinks.hasOwnProperty('smallThumbnail')){
+            itemImg = item.volumeInfo.imageLinks.smallThumbnail;
+          }
+        }
+        // in production code, item.text should have the HTML entities escaped.
+        var htmlCards = '<div class="grid-item"><div class="card">';
+        htmlCards += '<div class="img-wrapper"><img src="'+itemImg+'" id="'+item.id+'" alt="'+item.volumeInfo.title+'" class="img-responsive img-rounded" onerror="imgError(this);" onclick="addBook(this)"></div>';
+        htmlCards += '</div></div>';
+        $('.grid').append(htmlCards);
+      }
+      document.getElementById("content").innerHTML = tempHTML;
+      setTimeout(function(){
+        $('.grid').masonry({
+          // set itemSelector so .grid-sizer is not used in layout
+          itemSelector: '.grid-item',
+          // use element for option
+          columnWidth: '.grid-sizer',
+          percentPosition: true
+        });
+      }, 200);
+    }
+    function imgError(image) {
+      image.onerror = "";
+      image.src = "http://www.avsforum.com/photopost/data/2277869/9/9f/9f50538d_test.jpeg";
+      return true;
+    }
+    function addBook(image) {
+      var msnry = $('.grid').data('masonry');
+      msnry.destroy();
+      var tempHTML = "<h2>Adding Book...</h2>";
+      $('.grid').html('<div class="grid-sizer"></div>');
+      document.getElementById("content").innerHTML = tempHTML;
+      $.ajax({
+        type: 'POST',
+        url: '/addBook',
+        data: {
+          "image": image.src,
+          "name": image.alt,
+          "url": "https://www.googleapis.com/books/v1/volumes/"+image.id,
+          "user": user
+        },
+        success: function(data) {
+          var tempHTML = "<h2>Book Added</h2>";
+          document.getElementById("content").innerHTML = tempHTML;
+        }
+      });
+    }
+  </script>
+     <% include ../partials/footer.ejs %>
+    </footer>
+</body>
+</html>

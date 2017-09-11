@@ -1,0 +1,151 @@
+body {
+  padding-top: 20px;
+  background-color:#DBC6A4;
+}
+.site-footer span{
+  text-align: center;
+}
+.site-footer {
+  margin-bottom: 3rem;
+}
+i.fa.fa-github {
+  margin-left: 15px;
+  margin-top:5px;
+  font-size: 3.5em;
+  vertical-align: middle;
+}
+a.glyphicon.glyphicon-envelope {
+  margin-left: 10px;
+  margin-top:5px;
+  font-size: 2.5em;
+  top: 0.5em;
+}
+.navbar {
+  background-color: #FFFFCC;
+
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.well, .profile2{
+  background-color: #FFFFCC;
+}
+
+.jumbotron {
+   box-shadow: 0 4px 28px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   background-image: url(https://ak5.picdn.net/shutterstock/videos/15253078/thumb/1.jpg);
+   width:1150px;
+   height:600px;
+   color: #FFFFCC;
+   font-size:18px;
+   background-size: cover;
+}
+.profile{
+  background-color: crimson;
+  border-radius: 6px;
+}
+.profile2 {
+  border-radius: 6px;
+}
+.profile3 {
+  text-align: center;
+  margin: 20px 0px 20px 0px;
+}
+/* fluid 5 columns */
+.grid-item {
+  width: 33.333%;
+  padding: 5px;
+  border: .2px solid black;
+  box-shadow: 0 4px 28px 0 rgba(0, 0, 0, 0.2), 0 6px 30px 0 rgba(0, 0, 0, 0.19);
+  color: black;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #FFFFCC;
+  text-align: center;
+}
+.grid-sizer {
+margin: 5px;
+}
+/* 2 columns */
+.grid-item--width2 {
+  width: 40%;
+  padding: 5px;
+  text-align: center;
+}
+
+.pin-title1 {
+  background-color: transparent;
+  text-align: center;
+  padding: 5px;
+}
+div.text-bottom {
+  padding: 5px;
+}
+.pin-title2 {
+  background-color: transparent;
+  padding: 5px
+}
+hr {
+  color: black;
+}
+
+button {
+  margin:5px;
+}
+img {
+  margin: auto;
+  text-align: center;
+}
+.pin-title {
+  background-color: transparent;
+  color: red !important;
+  padding-top: 10px;
+}
+.pin-title a {
+    color: #f5f5f5 !important;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.pin-title1 a{
+  color: red !important;
+}
+.pin-title2 a {
+    color: green !important;
+    font-size: x-large;
+}
+.centerBlock {
+                display: table;
+                margin: 0 auto;
+            }
+/* 3 columns by default */
+.grid-sizer { width: 33.333%; }
+
+@media screen and (min-width: 768px) {
+  /* 5 columns for larger screens */
+  .grid-sizer { width: 20%; }
+  .grid-item {
+  width: 20%;
+  padding: 5px;
+}
+}
+
+@media (min-width: 992px) {
+  .col-md-offset-4 {
+    margin-left: 33.33333333%;
+    margin-top: 10%;
+  }
+}
+.row {
+margin-top: 5px;
+padding: 5px;
+}
+
+.center {
+    text-align: center;
+}
+
+.dot {
+border-style: solid;
+border-width: 1px;
+}

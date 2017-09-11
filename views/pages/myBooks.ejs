@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+  <% include ../partials/navbar.ejs %>
+  <!-- Begin Container -->
+  <br>
+  <div class="container text-center">
+
+      <h1><span class="fa fa-bookmark"> </span> My Books</h1>
+      <br>
+      <hr>
+      <div class="container text-center">
+        <br>
+        <div id="info"></div>
+        <div class="grid" style="position: relative; height: 184px;">
+          <div class="grid-sizer"></div>
+        </div>
+      </div>
+
+</div>
+  <!-- /.container -->
+  <footer>
+    <script>
+    var userBooks = <%- JSON.stringify(books) %>;
+    var user = <%- JSON.stringify(user) %>;
+    //console.log(userBooks);
+    //console.log(user);
+    for(var i = 0; i < userBooks.length; i++) {
+      console.log(userBooks[i].userGoogle);
+      if (user.google.id===userBooks[i].userGoogle.id) {
+        var htmlCards = '<div class="grid-item"><div class="card">';
+        htmlCards += '<div class="img-wrapper"><img src="'+userBooks[i].image+'" class="img-responsive img-rounded" onerror="imgError(this);"><div class="pin-title text-bottom"><a class="btn btn-danger" href="/deleteBook?id='+userBooks[i]._id+'"><span class="glyphicon glyphicon-trash"></span> Delete</a></div></div>';
+        $('.grid').append(htmlCards);
+      }
+    }
+    if(userBooks.length == 0){
+      $('#info').append("You have no books.")
+    }
+    setTimeout(function(){
+      $('.grid').masonry({
+        // set itemSelector so .grid-sizer is not used in layout
+        itemSelector: '.grid-item',
+        // use element for option
+        columnWidth: '.grid-sizer',
+        percentPosition: true
+      });
+    }, 200);
+    function imgError(image) {
+      image.onerror = "";
+      image.src = "http://www.avsforum.com/photopost/data/2277869/9/9f/9f50538d_test.jpeg";
+      return true;
+    }
+    </script>
+    <% include ../partials/footer.ejs %>
+      </footer>
+</body>
+</html>

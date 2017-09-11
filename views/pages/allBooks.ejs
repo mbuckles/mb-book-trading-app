@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+  <% include ../partials/navbar.ejs %>
+  <!-- Begin Container -->
+  <br>
+  <div class="container text-center">
+  <h1><span class="fa fa-bookmark"> </span> All Books</h1>
+  <br>
+  <hr>
+</div>
+  <!-- Begin Container -->
+  <div class="container">
+    <div class="profile3">
+      <h4>
+        <p>If you register for an account, you can add books to your library and trade books with other members.<br>
+          Click on the &hearts; to request a trade.
+        </p>
+      </h4>
+  	</div>
+    <div id="info"></div>
+    <div class="grid" style="position: relative; height: 184px;">
+      <div class="grid-sizer"></div>
+    </div>
+ </div>
+ <footer>
+   <script>
+   var allBooks = <%- JSON.stringify(books) %>;
+   var user = <%- JSON.stringify(user) %>;
+   var results = {};
+   results = allBooks;
+   for(var i = 0; i < allBooks.length; i++){
+     console.log(allBooks[i].userGoogle.name);
+     var htmlCards = '<div class="grid-item"><div class="card">';
+     htmlCards += '<div class="img-wrapper"><div class="pin-title2" onclick="trade(\''+allBooks[i]._id+'\')"><a>&hearts;</a></div><img src="'+allBooks[i].image+'" class="img-responsive img-rounded" onerror="imgError(this);"><div class="text-bottom">Owner: ' +allBooks[i].userGoogle.name+'</div></div>';
+     $('.grid').append(htmlCards);
+   }
+   if(allBooks.length == 0){
+     $('#info').append("There are no books.")
+   }
+   setTimeout(function(){
+     $('.grid').masonry({
+       // set itemSelector so .grid-sizer is not used in layout
+       itemSelector: '.grid-item',
+       // use element for option
+       columnWidth: '.grid-sizer',
+       percentPosition: true
+     });
+   }, 200);
+   function imgError(image) {
+     image.onerror = "";
+     image.src = "http://www.avsforum.com/photopost/data/2277869/9/9f/9f50538d_test.jpeg";
+     return true;
+   }
+
+   function trade(data) {
+     //console.log(results[0]);
+     //console.log(data);
+     //	console.log('trade made data above');
+     for(var i = 0; i < results.length; i++){
+       //  console.log(results[i]._id);
+       if(results[i]._id == data){
+         $.ajax({
+           type: 'POST',
+           url: '/addTrade',
+           data: {
+             image: results[i].image,
+             name: results[i].name,
+             bookid: results[i]._id,
+             targetUser: results[i].userGoogle,
+             user: user
+           },
+           success: function(data2) {
+             window.alert("Trade requested");
+           }
+         });
+         //break;
+       }
+     }
+   }
+ </script>
+     <% include ../partials/footer.ejs %>
+  </footer>
+  <!-- /.container -->
+</body>
+</html>
